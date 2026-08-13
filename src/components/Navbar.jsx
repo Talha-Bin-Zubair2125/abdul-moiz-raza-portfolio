@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useTypingEffect } from "../hooks/useTypingEffect";
 
@@ -16,116 +16,133 @@ const links = [
 
 const brandTitles = ["A.M.", "Abdul Moiz", "Developer"];
 
-// Keep this in sync with the CSS breakpoint below.
-const MOBILE_BREAKPOINT = 1100;
-
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
-  const typedBrand = useTypingEffect(brandTitles, 100, 2000, 600);
+  const typedBrand = useTypingEffect(
+    brandTitles,
+    100,
+    2000,
+    600
+  );
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= MOBILE_BREAKPOINT) {
+      if (window.innerWidth > 850) {
         setOpen(false);
       }
     };
 
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
         setOpen(false);
       }
     };
 
     window.addEventListener("resize", handleResize);
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleEscape);
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", handleEscape);
     };
   }, []);
 
-  const handleNavClick = () => {
+  const closeMenu = () => {
     setOpen(false);
   };
 
   return (
     <>
+      {/* ================= NAVBAR ================= */}
       <motion.nav
-        initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="glass navbar-container"
+        className="navbar"
+        initial={{ opacity: 0, y: -25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        {/* Brand */}
-        <a href="#home" className="navbar-brand" onClick={handleNavClick}>
-          {/* Invisible text keeps a stable width */}
-          <span className="navbar-sentinel" aria-hidden="true">
-            Abdul Moiz
-          </span>
+        <div className="navbar-inner">
 
-          <span className="navbar-text-wrapper">
-            <span>{typedBrand}</span>
-            <span className="navbar-cursor" />
-          </span>
-        </a>
+          {/* BRAND */}
+          <a
+            href="#home"
+            className="navbar-brand"
+            onClick={closeMenu}
+          >
+            <span className="brand-hidden">
+              Abdul Moiz
+            </span>
 
-        {/* Desktop Navigation */}
-        <div className="nav-links">
-          {links.map((link) => (
-            <a
-              key={link}
-              href={`#${link.toLowerCase()}`}
-              className="nav-link"
-              onClick={handleNavClick}
-            >
-              {link}
-            </a>
-          ))}
+            <span className="brand-typed">
+              {typedBrand}
+              <span className="typing-cursor" />
+            </span>
+          </a>
+
+          {/* DESKTOP LINKS */}
+          <div className="desktop-links">
+            {links.map((link) => (
+              <a
+                key={link}
+                href={`#${link.toLowerCase()}`}
+                className="nav-link"
+                onClick={closeMenu}
+              >
+                {link}
+              </a>
+            ))}
+          </div>
+
+          {/* MOBILE BUTTON */}
+          <button
+            type="button"
+            className="menu-button"
+            onClick={() => setOpen((prev) => !prev)}
+            aria-label={open ? "Close navigation" : "Open navigation"}
+            aria-expanded={open}
+          >
+            {open ? <FiX /> : <FiMenu />}
+          </button>
         </div>
-
-        {/* Mobile Toggle */}
-        <button
-          type="button"
-          className="nav-toggle"
-          onClick={() => setOpen((prev) => !prev)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-        >
-          {open ? <FiX /> : <FiMenu />}
-        </button>
       </motion.nav>
 
-      {/* Mobile Menu */}
+      {/* ================= MOBILE MENU ================= */}
       <AnimatePresence>
         {open && (
           <>
-            {/* Backdrop */}
             <motion.div
-              className="mobile-backdrop"
+              className="menu-overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setOpen(false)}
+              onClick={closeMenu}
             />
 
             <motion.div
-              className="glass mobile-menu"
-              initial={{ opacity: 0, y: -15, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -15, scale: 0.98 }}
-              transition={{
-                duration: 0.2,
-                ease: "easeOut",
+              className="mobile-menu"
+              initial={{
+                opacity: 0,
+                y: -10,
+                scale: 0.97,
               }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+              }}
+              exit={{
+                opacity: 0,
+                y: -10,
+                scale: 0.97,
+              }}
+              transition={{ duration: 0.2 }}
             >
               {links.map((link) => (
                 <a
                   key={link}
                   href={`#${link.toLowerCase()}`}
-                  onClick={handleNavClick}
-                  className="mobile-nav-link"
+                  className="mobile-link"
+                  onClick={closeMenu}
                 >
                   {link}
                 </a>
@@ -136,40 +153,63 @@ export default function Navbar() {
       </AnimatePresence>
 
       <style>{`
-        /* =========================================
-           NAVBAR
-        ========================================= */
 
-        .navbar-container {
+        /* =====================================
+           MAIN NAVBAR
+        ===================================== */
+
+        .navbar {
           position: fixed;
-          top: 16px;
+          top: 18px;
           left: 50%;
           transform: translateX(-50%);
 
-          z-index: 100;
+          z-index: 1000;
 
-          width: min(
-            calc(100% - 32px),
-            1180px
-          );
-
-          min-height: 58px;
-
-          padding: 10px 18px;
+          width: max-content;
+          max-width: calc(100vw - 32px);
 
           box-sizing: border-box;
+        }
 
+
+        /* =====================================
+           NAVBAR INNER
+        ===================================== */
+
+        .navbar-inner {
           display: flex;
           align-items: center;
 
-          gap: 24px;
+          width: fit-content;
 
-          overflow: hidden;
+          min-height: 58px;
+
+          padding: 8px 12px;
+
+          border-radius: 999px;
+
+          background: rgba(20, 20, 25, 0.72);
+
+          border: 1px solid rgba(255, 255, 255, 0.09);
+
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+
+          box-shadow:
+            0 8px 35px rgba(0, 0, 0, 0.25);
+
+          box-sizing: border-box;
+
+          gap: 12px;
+
+          transition: all 0.3s ease;
         }
 
-        /* =========================================
+
+        /* =====================================
            BRAND
-        ========================================= */
+        ===================================== */
 
         .navbar-brand {
           position: relative;
@@ -179,40 +219,29 @@ export default function Navbar() {
 
           flex: 0 0 auto;
 
-          min-width: max-content;
-
-          font-family: var(--font-display);
-          font-size: clamp(17px, 1.7vw, 20px);
-          font-weight: 700;
-
-          letter-spacing: 1px;
-
           color: var(--text);
+
           text-decoration: none;
 
+          font-family: var(--font-display);
+
+          font-size: 18px;
+          font-weight: 700;
+
+          letter-spacing: 0.5px;
+
           white-space: nowrap;
-
-          transition: color 0.3s ease;
         }
 
-        .navbar-brand:hover {
-          color: var(--gold-light);
-        }
-
-        .navbar-sentinel {
+        .brand-hidden {
           visibility: hidden;
-
-          display: block;
-
           white-space: nowrap;
-
-          pointer-events: none;
         }
 
-        .navbar-text-wrapper {
+        .brand-typed {
           position: absolute;
-
-          inset: 0 auto auto 0;
+          left: 0;
+          top: 0;
 
           display: inline-flex;
           align-items: center;
@@ -220,55 +249,55 @@ export default function Navbar() {
           white-space: nowrap;
         }
 
-        .navbar-cursor {
-          display: inline-block;
-
+        .typing-cursor {
           width: 2px;
           height: 18px;
 
           margin-left: 4px;
 
-          flex-shrink: 0;
-
           background: var(--gold-light);
 
-          animation: blink 1s step-start infinite;
+          animation: cursorBlink 1s step-start infinite;
         }
 
-        /* =========================================
-           DESKTOP LINKS
-        ========================================= */
 
-        .nav-links {
+        /* =====================================
+           DESKTOP LINKS
+        ===================================== */
+
+        .desktop-links {
           display: flex;
           align-items: center;
-          justify-content: flex-end;
 
-          flex: 1 1 auto;
+          gap: 18px;
 
-          min-width: 0;
-
-          gap: clamp(10px, 1.45vw, 22px);
+          white-space: nowrap;
         }
 
         .nav-link {
           position: relative;
 
-          flex: 0 0 auto;
-
           color: var(--text);
+
           text-decoration: none;
 
-          font-size: clamp(12px, 1.1vw, 14px);
+          font-size: 13px;
           font-weight: 500;
 
           opacity: 0.85;
 
           white-space: nowrap;
 
+          padding: 7px 0;
+
           transition:
             color 0.25s ease,
             opacity 0.25s ease;
+        }
+
+        .nav-link:hover {
+          color: var(--gold-light);
+          opacity: 1;
         }
 
         .nav-link::after {
@@ -277,163 +306,167 @@ export default function Navbar() {
           position: absolute;
 
           left: 0;
-          bottom: -5px;
+          bottom: 2px;
 
           width: 0;
-          height: 2px;
+          height: 1.5px;
 
-          border-radius: 10px;
+          border-radius: 999px;
 
           background: var(--gold-light);
 
           transition: width 0.25s ease;
         }
 
-        .nav-link:hover {
-          color: var(--gold-light);
-          opacity: 1;
-        }
-
         .nav-link:hover::after {
           width: 100%;
         }
 
-        /* =========================================
-           MOBILE TOGGLE
-        ========================================= */
 
-        .nav-toggle {
+        /* =====================================
+           MENU BUTTON
+        ===================================== */
+
+        .menu-button {
           display: none;
 
           align-items: center;
           justify-content: center;
 
-          flex: 0 0 auto;
+          width: 40px;
+          height: 40px;
 
-          width: 42px;
-          height: 42px;
+          flex-shrink: 0;
 
-          padding: 0;
+          border: none;
+          border-radius: 50%;
 
-          border: 0;
-          border-radius: 10px;
-
-          background: transparent;
+          background: rgba(255, 255, 255, 0.05);
 
           color: var(--text);
 
-          font-size: 24px;
+          font-size: 22px;
 
           cursor: pointer;
 
+          padding: 0;
+
           transition:
-            color 0.25s ease,
             background 0.25s ease,
+            color 0.25s ease,
             transform 0.2s ease;
         }
 
-        .nav-toggle:hover {
+        .menu-button:hover {
+          background: rgba(255, 255, 255, 0.1);
           color: var(--gold-light);
-
-          background: rgba(255, 255, 255, 0.06);
         }
 
-        .nav-toggle:active {
-          transform: scale(0.94);
+        .menu-button:active {
+          transform: scale(0.92);
         }
 
-        /* =========================================
-           MOBILE BACKDROP
-        ========================================= */
 
-        .mobile-backdrop {
+        /* =====================================
+           MOBILE OVERLAY
+        ===================================== */
+
+        .menu-overlay {
           position: fixed;
-
           inset: 0;
 
-          z-index: 80;
+          z-index: 998;
 
-          background: rgba(0, 0, 0, 0.35);
+          background: rgba(0, 0, 0, 0.4);
 
-          backdrop-filter: blur(3px);
-          -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(2px);
+          -webkit-backdrop-filter: blur(2px);
         }
 
-        /* =========================================
+
+        /* =====================================
            MOBILE MENU
-        ========================================= */
+        ===================================== */
 
         .mobile-menu {
           position: fixed;
 
-          top: 82px;
-          left: 16px;
-          right: 16px;
+          top: 86px;
+          left: 50%;
 
-          z-index: 90;
+          transform: translateX(-50%);
+
+          z-index: 999;
+
+          width: min(
+            calc(100vw - 32px),
+            360px
+          );
+
+          padding: 10px;
 
           display: flex;
           flex-direction: column;
 
-          padding: 10px;
+          border-radius: 22px;
+
+          background: rgba(20, 20, 25, 0.88);
+
+          border: 1px solid rgba(255, 255, 255, 0.09);
+
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+
+          box-shadow:
+            0 15px 45px rgba(0, 0, 0, 0.35);
 
           box-sizing: border-box;
-
-          max-height: calc(100vh - 100px);
-
-          overflow-y: auto;
-
-          overscroll-behavior: contain;
         }
 
-        .mobile-nav-link {
+        .mobile-link {
           display: flex;
           align-items: center;
 
-          min-height: 46px;
+          min-height: 45px;
 
-          padding: 0 14px;
+          padding: 0 16px;
 
-          border-radius: 10px;
+          border-radius: 12px;
 
           color: var(--text);
 
           text-decoration: none;
 
-          font-size: 16px;
+          font-size: 15px;
           font-weight: 500;
 
           transition:
-            color 0.25s ease,
-            background 0.25s ease,
-            padding-left 0.25s ease;
+            background 0.2s ease,
+            color 0.2s ease,
+            padding-left 0.2s ease;
         }
 
-        .mobile-nav-link:hover {
+        .mobile-link:hover {
           color: var(--gold-light);
 
-          background: rgba(255, 255, 255, 0.06);
+          background: rgba(255, 255, 255, 0.05);
 
-          padding-left: 18px;
+          padding-left: 20px;
         }
 
-        /* =========================================
-           LARGE TABLETS / SMALL LAPTOPS
-           Keep desktop navigation only when it
-           actually has enough room.
-        ========================================= */
 
-        @media (max-width: 1150px) and (min-width: 1101px) {
-          .navbar-container {
-            width: calc(100% - 24px);
-            padding-left: 14px;
-            padding-right: 14px;
+        /* =====================================
+           TABLETS
+        ===================================== */
 
-            gap: 16px;
+        @media (max-width: 1100px) {
+
+          .navbar-inner {
+            gap: 14px;
           }
 
-          .nav-links {
-            gap: 11px;
+          .desktop-links {
+            gap: 13px;
           }
 
           .nav-link {
@@ -441,107 +474,68 @@ export default function Navbar() {
           }
         }
 
-        /* =========================================
-           TABLETS + PHONES
-        ========================================= */
 
-        @media (max-width: 1100px) {
-          .navbar-container {
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 850px) {
+
+          .navbar {
             top: 12px;
 
-            width: calc(100% - 24px);
-
-            min-height: 56px;
-
-            padding: 8px 12px;
-
-            gap: 12px;
-
-            overflow: visible;
+            max-width: calc(100vw - 24px);
           }
 
-          .nav-links {
+          .navbar-inner {
+            width: auto;
+
+            min-height: 54px;
+
+            padding: 7px 8px 7px 14px;
+
+            border-radius: 999px;
+
+            gap: 8px;
+          }
+
+          .desktop-links {
             display: none;
           }
 
-          .nav-toggle {
+          .menu-button {
             display: flex;
-
-            margin-left: auto;
-          }
-
-          .mobile-menu {
-            top: 76px;
-            left: 12px;
-            right: 12px;
           }
         }
 
-        /* =========================================
-           PHONES
-        ========================================= */
 
-        @media (max-width: 600px) {
-          .navbar-container {
+        /* =====================================
+           SMALL PHONES
+        ===================================== */
+
+        @media (max-width: 500px) {
+
+          .navbar {
             top: 10px;
 
-            width: calc(100% - 20px);
+            max-width: calc(100vw - 20px);
+          }
 
+          .navbar-inner {
             min-height: 52px;
 
-            padding: 7px 10px;
+            padding: 6px 7px 6px 13px;
           }
 
           .navbar-brand {
-            font-size: 17px;
-
-            letter-spacing: 0.7px;
+            font-size: 16px;
           }
 
-          .navbar-cursor {
+          .typing-cursor {
             height: 16px;
           }
 
-          .nav-toggle {
-            width: 40px;
-            height: 40px;
-
-            font-size: 22px;
-          }
-
-          .mobile-menu {
-            top: 68px;
-
-            left: 10px;
-            right: 10px;
-
-            padding: 8px;
-          }
-
-          .mobile-nav-link {
-            min-height: 44px;
-
-            font-size: 15px;
-          }
-        }
-
-        /* =========================================
-           VERY SMALL PHONES
-        ========================================= */
-
-        @media (max-width: 360px) {
-          .navbar-container {
-            width: calc(100% - 16px);
-
-            padding-left: 8px;
-            padding-right: 8px;
-          }
-
-          .navbar-brand {
-            font-size: 15px;
-          }
-
-          .nav-toggle {
+          .menu-button {
             width: 38px;
             height: 38px;
 
@@ -549,40 +543,65 @@ export default function Navbar() {
           }
 
           .mobile-menu {
-            top: 64px;
+            top: 72px;
 
-            left: 8px;
-            right: 8px;
+            width: calc(100vw - 20px);
           }
         }
 
-        /* =========================================
+
+        /* =====================================
+           VERY SMALL PHONES
+        ===================================== */
+
+        @media (max-width: 350px) {
+
+          .navbar-brand {
+            font-size: 15px;
+          }
+
+          .navbar-inner {
+            padding-left: 11px;
+          }
+
+          .menu-button {
+            width: 36px;
+            height: 36px;
+
+            font-size: 20px;
+          }
+        }
+
+
+        /* =====================================
+           CURSOR ANIMATION
+        ===================================== */
+
+        @keyframes cursorBlink {
+          50% {
+            opacity: 0;
+          }
+        }
+
+
+        /* =====================================
            REDUCED MOTION
-        ========================================= */
+        ===================================== */
 
         @media (prefers-reduced-motion: reduce) {
-          .navbar-cursor {
+
+          .typing-cursor {
             animation: none;
           }
 
           .nav-link,
           .nav-link::after,
-          .navbar-brand,
-          .nav-toggle,
-          .mobile-nav-link {
+          .mobile-link,
+          .menu-button {
             transition: none;
           }
         }
 
-        /* =========================================
-           CURSOR
-        ========================================= */
-
-        @keyframes blink {
-          50% {
-            opacity: 0;
-          }
-        }
       `}</style>
     </>
   );
