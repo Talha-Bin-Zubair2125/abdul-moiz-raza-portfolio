@@ -22,14 +22,24 @@ export default function Hero() {
   return (
     <section id="home" className="hero-section">
       <div className="hero-grid">
-        
+        {/* Badges shown ABOVE the avatar on small screens (static, no overlap) */}
+        <div className="mobile-tags">
+          <div className="glass floating-tag-inline">
+            <span>📱 Mobile App Dev</span>
+          </div>
+          <div className="glass floating-tag-inline">
+            <span>🧪 QA Automation</span>
+          </div>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7 }}
           className="hero-avatar-container"
         >
-          <motion.div 
+          {/* Floating badges around avatar (desktop / tablet only) */}
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
@@ -38,8 +48,7 @@ export default function Hero() {
             <span>📱 Mobile App Dev</span>
           </motion.div>
 
-          {/* Top Right / Mid Right Tag */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
@@ -79,9 +88,9 @@ export default function Hero() {
 
           <p className="hero-bio">
             Computer Science student and mobile developer building
-            production-grade applications end to end — from Flutter and Kotlin on the
-            mobile front to NestJS and PostgreSQL on the backend, alongside SQA automation experience. Based in
-            Rawalpindi, Pakistan.
+            production-grade applications end to end — from Flutter and Kotlin
+            on the mobile front to NestJS and PostgreSQL on the backend,
+            alongside SQA automation experience. Based in Rawalpindi, Pakistan.
           </p>
 
           <div className="stats-grid">
@@ -110,6 +119,7 @@ export default function Hero() {
           display: flex;
           align-items: center;
           padding-top: 100px;
+          overflow-x: hidden;
         }
 
         .hero-grid {
@@ -118,6 +128,23 @@ export default function Hero() {
           gap: 48px;
           align-items: center;
           width: 100%;
+        }
+
+        /* Static badge row — hidden by default, shown only on small screens */
+        .mobile-tags {
+          display: none;
+        }
+
+        .floating-tag-inline {
+          padding: 6px 14px;
+          font-size: 12px;
+          font-weight: 600;
+          color: var(--text);
+          white-space: nowrap;
+          border-radius: 20px;
+          border: 1px solid var(--glass-border);
+          background: rgba(20, 15, 10, 0.75);
+          backdrop-filter: blur(8px);
         }
 
         .hero-avatar-container {
@@ -138,7 +165,7 @@ export default function Hero() {
           display: block;
         }
 
-        /* Floating Skill Badges Around Avatar */
+        /* Floating Skill Badges Around Avatar (desktop/tablet) */
         .floating-tag {
           position: absolute;
           padding: 6px 14px;
@@ -282,15 +309,23 @@ export default function Hero() {
           .stats-grid {
             justify-content: center;
           }
+        }
 
-          .tag-top-left {
-            top: -16px;
-            left: -10px;
+        /* Below this width the negative-offset floating badges no longer
+           fit safely — switch to a static row above the avatar instead. */
+        @media (max-width: 600px) {
+          .mobile-tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            order: -1;
+            margin-bottom: 8px;
           }
 
+          .tag-top-left,
           .tag-top-right {
-            top: -16px;
-            right: -10px;
+            display: none;
           }
         }
 
