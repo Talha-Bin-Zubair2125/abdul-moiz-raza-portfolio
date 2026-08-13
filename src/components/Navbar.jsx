@@ -17,11 +17,11 @@ const brandTitles = ["A.M.", "Abdul Moiz", "Developer"];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const typedBrand = useTypingEffect(brandTitles, 100, 2000);
+  const typedBrand = useTypingEffect(brandTitles, 100, 2000, 600);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 768) {
+      if (window.innerWidth > 900) {
         setOpen(false);
       }
     };
@@ -38,7 +38,6 @@ export default function Navbar() {
         className="glass navbar-container"
       >
         <a href="#home" className="navbar-brand">
-          {/* Invisible sentinel ensures the longest title ("Abdul Moiz") reserves exact width to prevent layout shift & wrapping */}
           <span className="navbar-sentinel" aria-hidden="true">
             Abdul Moiz
           </span>
@@ -101,6 +100,7 @@ export default function Navbar() {
           width: calc(100% - 32px);
           max-width: 900px;
           padding: 12px 24px;
+          box-sizing: border-box;
         }
 
         .navbar-brand {
@@ -148,6 +148,7 @@ export default function Navbar() {
         .nav-links {
           display: flex;
           gap: 22px;
+          flex-wrap: nowrap;
         }
 
         .nav-link {
@@ -157,6 +158,7 @@ export default function Navbar() {
           font-weight: 500;
           opacity: 0.85;
           transition: all 0.3s ease;
+          white-space: nowrap;
         }
 
         .nav-link:hover {
@@ -173,7 +175,9 @@ export default function Navbar() {
           font-size: 24px;
           align-items: center;
           justify-content: center;
-          padding: 4px;
+          padding: 8px;
+          min-width: 44px;
+          min-height: 44px;
           transition: color 0.3s ease;
         }
 
@@ -183,7 +187,7 @@ export default function Navbar() {
 
         .mobile-menu {
           position: fixed;
-          top: 76px;
+          top: 74px;
           left: 16px;
           right: 16px;
           z-index: 49;
@@ -207,13 +211,48 @@ export default function Navbar() {
 
         @keyframes blink { 50% { opacity: 0; } }
 
-        @media (max-width: 768px) {
+        /* Tablet/small-desktop: links get tight before they get hidden */
+        @media (max-width: 1024px) and (min-width: 901px) {
+          .nav-links {
+            gap: 14px;
+          }
+          .nav-link {
+            font-size: 13px;
+          }
+        }
+
+        /* Below this, links can't fit at all — switch to hamburger */
+        @media (max-width: 900px) {
           .nav-links {
             display: none;
           }
-          
+
           .nav-toggle {
             display: flex;
+          }
+        }
+
+        /* Small phones: tighten padding/sizes so nothing overflows */
+        @media (max-width: 480px) {
+          .navbar-container {
+            padding: 10px 16px;
+            top: 10px;
+          }
+
+          .navbar-brand {
+            font-size: 17px;
+          }
+
+          .mobile-menu {
+            top: 64px;
+            left: 12px;
+            right: 12px;
+            padding: 16px 20px;
+            gap: 12px;
+          }
+
+          .mobile-nav-link {
+            font-size: 15px;
           }
         }
       `}</style>

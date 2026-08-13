@@ -1,12 +1,25 @@
+// useTypingEffect.js
 import { useState, useEffect } from "react";
 
-export function useTypingEffect(words = [], typingSpeed = 90, pause = 1500) {
+export function useTypingEffect(
+  words = [],
+  typingSpeed = 90,
+  pause = 1500,
+  startDelay = 500,
+) {
   const [text, setText] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
+  const [started, setStarted] = useState(false);
+
+  // one-time delay before typing kicks in at all
+  useEffect(() => {
+    const delayTimer = setTimeout(() => setStarted(true), startDelay);
+    return () => clearTimeout(delayTimer);
+  }, [startDelay]);
 
   useEffect(() => {
-    if (!words || words.length === 0) return;
+    if (!started || !words || words.length === 0) return;
 
     const current = words[wordIndex % words.length];
     let timeout;
@@ -29,7 +42,7 @@ export function useTypingEffect(words = [], typingSpeed = 90, pause = 1500) {
     }
 
     return () => clearTimeout(timeout);
-  }, [text, deleting, wordIndex, words, typingSpeed, pause]);
+  }, [started, text, deleting, wordIndex, words, typingSpeed, pause]);
 
   return text;
 }
