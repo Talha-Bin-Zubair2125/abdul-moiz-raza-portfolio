@@ -1,63 +1,57 @@
-# Glass Portfolio (React + Vite)
+# 🚀 Abdul Moiz Raza - Portfolio 
 
-A glassmorphism portfolio in gold and brown tones with black text, built with
-React, Vite, Framer Motion, and react-icons.
+A modern, responsive, and feature-rich personal portfolio built with **React** and **Vite** to showcase my professional journey, technical skills, mobile/full-stack projects, and career milestones as a Computer Science student and mobile developer.
 
-## Setup
+![React](https://img.shields.io/badge/Frontend-React-blue?logo=react) ![Vite](https://img.shields.io/badge/Build-Vite-purple?logo=vite) ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-```bash
-npm install
-npm run dev
-```
+---
 
-Then open the local URL Vite prints (usually http://localhost:5173).
+## ✨ Features
 
-## Add your resume PDF
+* **Dynamic Hero & Typing Effect:** Engaging introduction powered by custom React hooks.
+* **Comprehensive Sections:** Modular layout covering About, Goals, Education, Experience, Projects, Skills, Awards, and Contact.
+* **Interactive Project Cards:** Detailed breakdowns of production-grade mobile and web systems with tech stacks and links.
+* **Media & Certificate Integration:** Direct display of professional credentials, awards, and profile assets.
+* **Fully Responsive UI:** Optimized styling for seamless viewing across mobile, tablet, and desktop viewports.
 
-The footer's "Download Resume" button links to `/resume.pdf`. Drop your
-actual resume file into the `public/` folder and name it `resume.pdf` —
-Vite serves anything in `public/` at the site root automatically.
+---
 
-## Build for production
+## 🛠️ Tech Stack
 
-```bash
-npm run build
-```
+* **Core:** React.js, JavaScript (ES6+), Vite
+* **Styling:** CSS / Modern UI Styling
+* **Icons & Visuals:** Custom image assets and UI components
 
-Output goes to `dist/` — deploy it to Vercel, Netlify, or GitHub Pages.
+---
 
-## Deploy to Vercel
+## 📂 Project Structure
 
-CLI:
-```bash
-npm install -g vercel
-vercel login
-vercel        # preview deploy
-vercel --prod # production deploy
-```
-
-Or push to GitHub and import the repo at vercel.com — it auto-detects Vite
-(build command `npm run build`, output dir `dist`).
-
-## What's included
-
-- `src/components/Hero.jsx` — avatar circle, "available for work" badge, looping typing effect, stat cards
-- `src/components/Goal.jsx` — Career Objective / Vision / Mission cards
-- `src/components/Skills.jsx` — categorized skill grid using react-icons (Simple Icons) logos
-- `src/components/Projects.jsx` + `ProjectCard.jsx` — glass project cards with mouse-tilt hover
-- `src/components/Experience.jsx` — work experience timeline
-- `src/components/Education.jsx` — education cards
-- `src/components/Awards.jsx` — certifications & awards
-- `src/components/Contact.jsx`, `Footer.jsx` — contact CTA + 3-column footer with social links and resume download
-- `src/components/Navbar.jsx` — sticky glass navbar with a mobile hamburger menu below 640px
-
-## Customizing
-
-- **Colors**: all theme colors live in `src/index.css` under `:root` (`--gold`, `--bg-brown`, `--bg-deep`, `--text`).
-- **Content**: edit the text and arrays directly inside each component in `src/components/`.
-- **Skills icons**: `src/components/Skills.jsx` imports icons from `react-icons/si` — browse more at https://react-icons.github.io/react-icons (search "Simple Icons" for brand/tech logos, "Feather Icons" for general UI icons).
-- **Responsive breakpoints**: defined at the bottom of `src/index.css` (900px and 640px). The nav switches to a hamburger menu under 640px automatically.
-
-## Fonts
-
-Google Fonts: Playfair Display (headings) + Inter (body), loaded in `index.html`.
+```text
+portfolio/
+├── public/               # Static public assets
+├── src/
+│   ├── assets/           # Media files (Awards, Certificates, Profile image)
+│   │   ├── Award.jpg
+│   │   ├── Internship_Certificate.jpg
+│   │   └── Profile_Image.png
+│   ├── components/       # Modular UI components
+│   │   ├── About.jsx
+│   │   ├── Awards.jsx
+│   │   ├── Contact.jsx
+│   │   ├── Education.jsx
+│   │   ├── Experience.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Goal.jsx
+│   │   ├── Hero.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── ProjectCard.jsx
+│   │   ├── Projects.jsx
+│   │   └── Skills.jsx
+│   ├── hooks/            # Custom React hooks
+│   │   └── useTypingEffect.js
+│   ├── App.jsx           # Root application component
+│   ├── index.css         # Global stylesheets
+│   └── main.jsx          # Application entry point
+├── package.json          # Project dependencies and npm scripts
+├── vite.config.js        # Vite build configuration
+└── README.md             # Project documentation
