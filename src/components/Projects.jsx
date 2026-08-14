@@ -12,6 +12,7 @@ import {
 } from "react-icons/si";
 
 const projectHeadings = [
+  "Projects I'm proud of", // This is the longest phrase
   "Selected Works",
   "Featured Projects",
 ];
@@ -55,25 +56,25 @@ export default function Projects() {
   const typedHeading = useTypingEffect(projectHeadings);
 
   return (
-    <section 
+    <section
       id="projects"
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         width: "100%",
-        padding: "60px 20px"
+        padding: "60px 20px",
       }}
     >
       <div style={{ width: "100%", maxWidth: 840 }}>
-        <div 
+        <div
           className="eyebrow"
           style={{
             textAlign: "center",
             textTransform: "uppercase",
             letterSpacing: "2px",
             fontWeight: 600,
-            marginBottom: "16px"
+            marginBottom: "16px",
           }}
         >
           Selected work
@@ -83,28 +84,38 @@ export default function Projects() {
           style={{
             marginBottom: 36,
             display: "flex",
-            alignItems: "center",
             justifyContent: "center",
             fontSize: "clamp(22px, 3vw, 32px)",
             color: "var(--text)",
             fontFamily: "var(--font-display)",
           }}
         >
-          <span style={{ position: "relative", display: "inline-flex" }}>
-            {/* Invisible longest string to reserve the exact width and prevent jitter */}
-            <span style={{ visibility: "hidden", whiteSpace: "nowrap" }} aria-hidden="true">
-              Projects I'm proud of
-            </span>
-
-            {/* Left-aligned typing text inside the reserved space */}
+          {/* CSS Grid stack prevents layout shift and maintains true centering */}
+          <span
+            style={{
+              display: "grid",
+              placeItems: "center",
+            }}
+          >
+            {/* Invisible longest string + extra spacing buffer for the blinking cursor */}
             <span
               style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
+                visibility: "hidden",
+                whiteSpace: "nowrap",
+                gridArea: "1 / 1",
+              }}
+              aria-hidden="true"
+            >
+              Projects I'm proud of&nbsp;&nbsp;
+            </span>
+
+            {/* Centered active typing text */}
+            <span
+              style={{
                 display: "inline-flex",
                 alignItems: "center",
                 whiteSpace: "nowrap",
+                gridArea: "1 / 1",
               }}
             >
               <span>{typedHeading}</span>
@@ -123,7 +134,13 @@ export default function Projects() {
           </span>
         </h2>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "clamp(16px, 3vw, 24px)" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "clamp(16px, 3vw, 24px)",
+          }}
+        >
           {projects.map((p, i) => (
             <motion.div
               key={p.title}
@@ -153,7 +170,13 @@ export default function Projects() {
                   <h3 style={{ marginBottom: 8, color: "var(--text)" }}>
                     {p.title}
                   </h3>
-                  <div style={{ fontSize: 13, color: "var(--gold)", fontWeight: 600 }}>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "var(--gold)",
+                      fontWeight: 600,
+                    }}
+                  >
                     {p.tag}
                   </div>
                 </div>

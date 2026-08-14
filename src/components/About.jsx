@@ -4,6 +4,7 @@ import { useTypingEffect } from "../hooks/useTypingEffect";
 const headingPhrases = [
   "A little about my process",
   "Building robust applications",
+  "Engineering scalable solutions",
 ];
 
 export default function About() {
@@ -49,31 +50,38 @@ export default function About() {
           style={{
             marginBottom: 24,
             display: "flex",
-            alignItems: "center",
             justifyContent: "center",
             fontSize: "clamp(22px, 3vw, 32px)",
             color: "var(--text)",
             fontFamily: "var(--font-display)",
           }}
         >
-          <span style={{ position: "relative", display: "inline-flex" }}>
-            {/* Invisible longest string to reserve the exact width and prevent jitter */}
-            <span
-              style={{ visibility: "hidden", whiteSpace: "nowrap" }}
-              aria-hidden="true"
-            >
-              Engineering scalable solutions
-            </span>
-
-            {/* Left-aligned typing text inside the reserved space */}
+          {/* CSS Grid stack prevents layout shift and maintains true centering */}
+          <span
+            style={{
+              display: "grid",
+              placeItems: "center",
+            }}
+          >
+            {/* Invisible longest string + extra spacing buffer for the blinking cursor */}
             <span
               style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
+                visibility: "hidden",
+                whiteSpace: "nowrap",
+                gridArea: "1 / 1",
+              }}
+              aria-hidden="true"
+            >
+              Engineering scalable solutions&nbsp;&nbsp;
+            </span>
+
+            {/* Centered active typing text */}
+            <span
+              style={{
                 display: "inline-flex",
                 alignItems: "center",
                 whiteSpace: "nowrap",
+                gridArea: "1 / 1",
               }}
             >
               <span>{typedHeading}</span>
