@@ -5,7 +5,7 @@ import InternshipCertificate from "../assets/Internship_Certificate.jpg";
 
 const experienceHeadings = [
   "Experience",
-  "Where I've Worked",
+  "Where I've Worked", // This is the longest phrase
   "Professional Journey",
 ];
 
@@ -34,7 +34,7 @@ export default function Experience() {
         flexDirection: "column",
         alignItems: "center",
         width: "100%",
-        padding: "60px 20px", // Consistent padding for the section
+        padding: "60px 20px",
       }}
     >
       <div style={{ width: "100%", maxWidth: 840 }}>
@@ -57,27 +57,54 @@ export default function Experience() {
           style={{
             marginBottom: 32,
             display: "flex",
-            alignItems: "center",
             justifyContent: "center",
-            flexWrap: "wrap",
             fontSize: "clamp(22px, 3vw, 32px)",
             color: "var(--text)",
             fontFamily: "var(--font-display)",
-            textAlign: "center",
           }}
         >
-          <span>{typedHeading}</span>
+          {/* CSS Grid stack prevents layout shift and maintains true centering */}
           <span
             style={{
-              display: "inline-block",
-              width: "3px",
-              height: "1.1em",
-              background: "var(--gold-light)",
-              marginLeft: "6px",
-              animation: "blink 1s step-start infinite",
-              verticalAlign: "middle",
+              display: "grid",
+              placeItems: "center",
             }}
-          />
+          >
+            {/* Invisible longest string + extra spacing buffer for the blinking cursor */}
+            <span
+              style={{
+                visibility: "hidden",
+                whiteSpace: "nowrap",
+                gridArea: "1 / 1",
+              }}
+              aria-hidden="true"
+            >
+              Where I've Worked&nbsp;&nbsp;
+            </span>
+
+            {/* Centered active typing text */}
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                whiteSpace: "nowrap",
+                gridArea: "1 / 1",
+              }}
+            >
+              <span>{typedHeading}</span>
+              <span
+                style={{
+                  display: "inline-block",
+                  width: "3px",
+                  height: "1.1em",
+                  background: "var(--gold-light)",
+                  marginLeft: "6px",
+                  animation: "blink 1s step-start infinite",
+                  verticalAlign: "middle",
+                }}
+              />
+            </span>
+          </span>
         </h2>
 
         {/* Experience Cards */}
