@@ -12,7 +12,6 @@ import {
 } from "react-icons/si";
 
 const projectHeadings = [
-  "Projects I'm proud of", // This is the longest phrase
   "Selected Works",
   "Featured Projects",
 ];

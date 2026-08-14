@@ -4,7 +4,6 @@ import { useTypingEffect } from "../hooks/useTypingEffect";
 const headingPhrases = [
   "A little about my process",
   "Building robust applications",
-  "Engineering scalable solutions", 
 ];
 
 export default function About() {

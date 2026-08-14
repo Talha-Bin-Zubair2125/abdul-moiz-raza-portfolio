@@ -5,7 +5,6 @@ import Profile_Image from "../assets/Profile_Image.png";
 const roles = [
   "Mobile Developer",
   "QA Automation Engineer",
-  "Backend Developer",
 ];
 
 const stats = [
@@ -13,7 +12,7 @@ const stats = [
   { value: "5+", label: "Projects" },
   { value: "2026", label: "Graduate" },
   { value: "3.29", label: "CGPA" },
-  { value: "Rawalpindi,PK", label: "Location" },
+  { value: "Rawalpindi, PK", label: "Location" },
 ];
 
 export default function Hero() {
