@@ -77,10 +77,9 @@ export default function Skills() {
       </div>
       <h2
         style={{
-          fontSize: 34,
           marginBottom: 44,
           textAlign: "center",
-          minHeight: "42px",
+          minHeight: "1.4em",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -91,9 +90,9 @@ export default function Skills() {
             position: "relative",
             display: "inline-flex",
             alignItems: "center",
+            maxWidth: "100%",
           }}
         >
-          {/* Invisible sentinel reserves exact width to prevent layout jitter */}
           <span style={{ visibility: "hidden", whiteSpace: "nowrap" }} aria-hidden="true">
             Technical Expertise
           </span>
@@ -104,6 +103,8 @@ export default function Skills() {
               display: "inline-flex",
               alignItems: "center",
               whiteSpace: "nowrap",
+              maxWidth: "100%",
+              overflow: "hidden",
             }}
           >
             <span>{typedHeading}</span>
@@ -111,7 +112,7 @@ export default function Skills() {
               style={{
                 display: "inline-block",
                 width: "3px",
-                height: "24px",
+                height: "0.8em",
                 background: "var(--gold-light)",
                 marginLeft: "6px",
                 animation: "blink 1s step-start infinite",
@@ -121,15 +122,15 @@ export default function Skills() {
         </span>
       </h2>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "clamp(28px, 5vw, 40px)" }}>
         {groups.map((group, gi) => (
           <div key={group.title}>
-            <h3 style={{ fontSize: 17, marginBottom: 18 }}>{group.title}</h3>
+            <h3 style={{ marginBottom: 18 }}>{group.title}</h3>
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-                gap: 16,
+                gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))",
+                gap: "clamp(10px, 2.4vw, 16px)",
               }}
             >
               {group.items.map((item, i) => (
@@ -142,7 +143,7 @@ export default function Skills() {
                   whileHover={{ y: -6 }}
                   className="glass"
                   style={{
-                    padding: "22px 12px",
+                    padding: "clamp(16px, 3vw, 22px) 10px",
                     textAlign: "center",
                     display: "flex",
                     flexDirection: "column",
@@ -150,10 +151,10 @@ export default function Skills() {
                     gap: 10,
                   }}
                 >
-                  <div style={{ fontSize: 34, color: "var(--gold, #d4af37)" }}>
+                  <div style={{ fontSize: "clamp(26px, 5vw, 34px)", color: "var(--gold, #d4af37)" }}>
                     {item.icon}
                   </div>
-                  <div style={{ fontSize: 13, fontWeight: 600 }}>
+                  <div style={{ fontSize: 12.5, fontWeight: 600 }}>
                     {item.name}
                   </div>
                 </motion.div>

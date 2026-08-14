@@ -34,7 +34,6 @@ export default function Education() {
       <div className="eyebrow">Academic background</div>
       <h2
         style={{
-          fontSize: 34,
           marginBottom: 32,
           minHeight: "2.4em",
           display: "flex",
@@ -67,7 +66,7 @@ export default function Education() {
             transition={{ duration: 0.6, delay: i * 0.12 }}
             className="glass"
             style={{
-              padding: "28px 32px",
+              padding: "clamp(22px, 4vw, 28px) clamp(18px, 4vw, 32px)",
               maxWidth: "700px",
               width: "100%",
               textAlign: "left",
@@ -87,7 +86,7 @@ export default function Education() {
                 style={{
                   fontSize: 13,
                   fontWeight: 600,
-                  color: "var(--gold-light, #d4af37)",
+                  color: "var(--gold-light)",
                 }}
               >
                 {ed.period}
@@ -101,30 +100,19 @@ export default function Education() {
                     background: "rgba(255,255,255,0.08)",
                     padding: "2px 12px",
                     borderRadius: "12px",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   CGPA: {ed.cgpa}
                 </span>
               )}
             </div>
-            <h3 style={{ fontSize: 20, marginBottom: 6 }}>{ed.degree}</h3>
-            <p
-              style={{
-                fontSize: 14,
-                color: "var(--text-muted)",
-                marginBottom: 12,
-              }}
-            >
+            <h3 style={{ marginBottom: 6 }}>{ed.degree}</h3>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 12 }}>
               {ed.school}
             </p>
             {ed.details && (
-              <p
-                style={{
-                  fontSize: 14,
-                  color: "var(--text-muted)",
-                  lineHeight: 1.6,
-                }}
-              >
+              <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6 }}>
                 {ed.details}
               </p>
             )}

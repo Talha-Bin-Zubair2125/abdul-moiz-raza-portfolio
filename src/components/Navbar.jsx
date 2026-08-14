@@ -43,9 +43,13 @@ export default function Navbar() {
     };
   }, []);
 
-  const closeMenu = () => {
-    setOpen(false);
-  };
+  // Lock background scroll while the mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  const closeMenu = () => setOpen(false);
 
   return (
     <>
@@ -90,7 +94,13 @@ export default function Navbar() {
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
           >
-            {open ? <FiX /> : <FiMenu />}
+            <motion.span
+              animate={{ rotate: open ? 90 : 0 }}
+              transition={{ duration: 0.25 }}
+              style={{ display: "flex" }}
+            >
+              {open ? <FiX /> : <FiMenu />}
+            </motion.span>
           </button>
         </div>
       </motion.nav>
@@ -114,15 +124,18 @@ export default function Navbar() {
               exit={{ opacity: 0, y: -12, scale: 0.96 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
-              {links.map((link) => (
-                <a
+              {links.map((link, i) => (
+                <motion.a
                   key={link}
                   href={`#${link.toLowerCase()}`}
                   className="mobile-link"
                   onClick={closeMenu}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.04, duration: 0.2 }}
                 >
                   {link}
-                </a>
+                </motion.a>
               ))}
             </motion.div>
           </>
@@ -130,23 +143,17 @@ export default function Navbar() {
       </AnimatePresence>
 
       <style>{`
-        /* =====================================
-            MAIN NAVBAR CONTAINER
-        ===================================== */
         .navbar {
           position: fixed;
-          top: 20px;
+          top: clamp(10px, 3vw, 20px);
           left: 50%;
           transform: translateX(-50%);
           z-index: 1000;
           width: max-content;
-          max-width: calc(100vw - 28px);
+          max-width: calc(100vw - 24px);
           box-sizing: border-box;
         }
 
-        /* =====================================
-            NAVBAR INNER PILL
-        ===================================== */
         .navbar-inner {
           display: flex;
           align-items: center;
@@ -158,17 +165,14 @@ export default function Navbar() {
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          box-shadow: 
+          box-shadow:
             0 10px 40px rgba(0, 0, 0, 0.35),
             inset 0 1px 0 rgba(255, 255, 255, 0.08);
           box-sizing: border-box;
-          gap: 20px;
+          gap: clamp(10px, 3vw, 20px);
           transition: all 0.3s ease;
         }
 
-        /* =====================================
-            BRAND LOGO & TYPING EFFECT
-        ===================================== */
         .navbar-brand {
           position: relative;
           display: inline-flex;
@@ -176,13 +180,12 @@ export default function Navbar() {
           color: var(--text, #ffffff);
           text-decoration: none;
           font-family: var(--font-display, inherit);
-          font-size: 17px;
+          font-size: clamp(14px, 2vw, 17px);
           font-weight: 700;
           letter-spacing: 0.4px;
           white-space: nowrap;
         }
 
-        /* Hidden sizing span to maintain stable navbar width */
         .brand-measure {
           visibility: hidden;
           pointer-events: none;
@@ -208,13 +211,10 @@ export default function Navbar() {
           border-radius: 2px;
         }
 
-        /* =====================================
-            DESKTOP LINKS
-        ===================================== */
         .desktop-links {
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 4px;
           white-space: nowrap;
         }
 
@@ -225,7 +225,7 @@ export default function Navbar() {
           font-size: 13px;
           font-weight: 500;
           opacity: 0.8;
-          padding: 8px 14px;
+          padding: 8px 12px;
           border-radius: 999px;
           transition: color 0.2s ease, opacity 0.2s ease, background 0.2s ease;
         }
@@ -236,9 +236,6 @@ export default function Navbar() {
           background: rgba(255, 255, 255, 0.05);
         }
 
-        /* =====================================
-            MOBILE TOGGLE BUTTON
-        ===================================== */
         .menu-button {
           display: none;
           align-items: center;
@@ -261,13 +258,8 @@ export default function Navbar() {
           color: var(--gold-light, #f3e5ab);
         }
 
-        .menu-button:active {
-          transform: scale(0.92);
-        }
+        .menu-button:active { transform: scale(0.92); }
 
-        /* =====================================
-            MOBILE OVERLAY & MENU DROPDOWN
-        ===================================== */
         .menu-overlay {
           position: fixed;
           inset: 0;
@@ -279,11 +271,13 @@ export default function Navbar() {
 
         .mobile-menu {
           position: fixed;
-          top: 88px;
+          top: calc(var(--nav-height, 76px) + 12px);
           left: 50%;
           transform: translateX(-50%);
           z-index: 999;
-          width: min(calc(100vw - 28px), 340px);
+          width: min(calc(100vw - 24px), 340px);
+          max-height: calc(100vh - var(--nav-height, 76px) - 32px);
+          overflow-y: auto;
           padding: 10px;
           display: flex;
           flex-direction: column;
@@ -318,55 +312,26 @@ export default function Navbar() {
           opacity: 1;
         }
 
-        /* =====================================
-            MEDIA QUERIES
-        ===================================== */
         @media (max-width: 950px) {
-          .desktop-links {
-            display: none;
-          }
-          .menu-button {
-            display: flex;
-          }
-          .navbar-inner {
-            padding: 6px 8px 6px 16px;
-          }
+          .desktop-links { display: none; }
+          .menu-button { display: flex; }
+          .navbar-inner { padding: 6px 8px 6px 16px; }
         }
 
         @media (max-width: 480px) {
-          .navbar {
-            top: 14px;
-            max-width: calc(100vw - 20px);
-          }
-          .navbar-brand {
-            font-size: 15px;
-          }
-          .mobile-menu {
-            top: 78px;
-            width: calc(100vw - 20px);
-          }
+          .navbar { top: 12px; max-width: calc(100vw - 16px); }
+          .navbar-brand { font-size: 14px; }
+          .mobile-menu { width: calc(100vw - 16px); }
         }
 
-        /* =====================================
-            CURSOR ANIMATION
-        ===================================== */
         @keyframes cursorBlink {
           0%, 50% { opacity: 1; }
           50.1%, 100% { opacity: 0; }
         }
 
-        /* =====================================
-            REDUCED MOTION
-        ===================================== */
         @media (prefers-reduced-motion: reduce) {
-          .typing-cursor {
-            animation: none;
-          }
-          .nav-link,
-          .mobile-link,
-          .menu-button {
-            transition: none;
-          }
+          .typing-cursor { animation: none; }
+          .nav-link, .mobile-link, .menu-button { transition: none; }
         }
       `}</style>
     </>

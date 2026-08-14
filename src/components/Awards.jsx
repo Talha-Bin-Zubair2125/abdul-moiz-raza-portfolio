@@ -29,34 +29,18 @@ export default function Awards() {
           marginBottom: "12px",
         }}
       >
-        <div
-          style={{
-            width: "40px",
-            height: "1px",
-            background: "var(--glass-border)",
-          }}
-        ></div>
-        <div
-          className="eyebrow"
-          style={{ margin: 0, color: "var(--gold)", letterSpacing: "4px" }}
-        >
+        <div style={{ width: "40px", height: "1px", background: "var(--glass-border)" }} />
+        <div className="eyebrow" style={{ margin: 0, color: "var(--gold)", letterSpacing: "4px" }}>
           ACHIEVEMENTS
         </div>
-        <div
-          style={{
-            width: "40px",
-            height: "1px",
-            background: "var(--glass-border)",
-          }}
-        ></div>
+        <div style={{ width: "40px", height: "1px", background: "var(--glass-border)" }} />
       </div>
 
       <h2
         style={{
-          fontSize: "clamp(32px, 5vw, 48px)",
           marginBottom: "12px",
           color: "var(--text)",
-          minHeight: "2.4em",
+          minHeight: "1.4em",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -68,12 +52,10 @@ export default function Awards() {
             position: "relative",
             display: "inline-flex",
             alignItems: "center",
+            maxWidth: "100%",
           }}
         >
-          <span
-            style={{ visibility: "hidden", whiteSpace: "nowrap" }}
-            aria-hidden="true"
-          >
+          <span style={{ visibility: "hidden", whiteSpace: "nowrap" }} aria-hidden="true">
             Awards & Recognition
           </span>
           <span
@@ -83,6 +65,8 @@ export default function Awards() {
               display: "inline-flex",
               alignItems: "center",
               whiteSpace: "nowrap",
+              maxWidth: "100%",
+              overflow: "hidden",
             }}
           >
             <span>{typedHeading}</span>
@@ -90,7 +74,7 @@ export default function Awards() {
               style={{
                 display: "inline-block",
                 width: "3px",
-                height: "1.1em",
+                height: "0.8em",
                 background: "var(--gold-light)",
                 marginLeft: "6px",
                 animation: "blink 1s step-start infinite",
@@ -100,13 +84,7 @@ export default function Awards() {
           </span>
         </span>
       </h2>
-      <p
-        style={{
-          color: "var(--text-muted)",
-          marginBottom: "56px",
-          fontSize: "15px",
-        }}
-      >
+      <p style={{ color: "var(--text-muted)", marginBottom: "clamp(36px, 6vw, 56px)" }}>
         Dedication, perseverance, and a commitment to academic excellence.
       </p>
 
@@ -115,11 +93,7 @@ export default function Awards() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.7 }}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+        style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
         <div
           className="glass"
@@ -141,18 +115,16 @@ export default function Awards() {
               aspectRatio: "3/4",
               objectFit: "cover",
               borderRadius: "16px",
-              display: "block",
             }}
           />
         </div>
 
         <div
           style={{
-            width: "60px",
-            height: "60px",
+            width: 60,
+            height: 60,
             borderRadius: "18px",
-            background:
-              "linear-gradient(135deg, var(--gold-light), var(--gold))",
+            background: "linear-gradient(135deg, var(--gold-light), var(--gold))",
             color: "var(--text-dark)",
             display: "flex",
             alignItems: "center",
@@ -164,13 +136,7 @@ export default function Awards() {
           <FiAward size={28} />
         </div>
 
-        <h3
-          style={{
-            fontSize: "clamp(20px, 4vw, 26px)",
-            marginBottom: "14px",
-            color: "var(--text)",
-          }}
-        >
+        <h3 style={{ marginBottom: 14, color: "var(--text)" }}>
           PM Youth Program – Laptop Award (2025)
         </h3>
 
@@ -181,7 +147,7 @@ export default function Awards() {
             flexWrap: "wrap",
             justifyContent: "center",
             gap: "10px",
-            fontSize: "12px",
+            fontSize: 12,
             color: "var(--gold)",
             fontWeight: 700,
             letterSpacing: "1px",
@@ -190,26 +156,17 @@ export default function Awards() {
           }}
         >
           <span>Prime Minister's Youth Programme</span>
-          <span
-            style={{
-              fontSize: "18px",
-              lineHeight: 0,
-              color: "var(--text-muted)",
-            }}
-          >
-            •
-          </span>
+          <span style={{ fontSize: 18, lineHeight: 0, color: "var(--text-muted)" }}>•</span>
           <span>2025</span>
         </div>
 
-        {/* Description Text */}
         <p
           style={{
             color: "var(--text-muted)",
-            fontSize: "15px",
             lineHeight: 1.7,
             maxWidth: "600px",
             marginBottom: "32px",
+            padding: "0 clamp(4px, 3vw, 0px)",
           }}
         >
           Awarded high-specification laptop for outstanding academic performance
@@ -221,30 +178,15 @@ export default function Awards() {
             display: "flex",
             flexDirection: "column",
             gap: "18px",
+            width: "100%",
             maxWidth: "640px",
             textAlign: "left",
           }}
         >
           {detailsList.map((text, i) => (
-            <div
-              key={i}
-              style={{ display: "flex", alignItems: "flex-start", gap: "14px" }}
-            >
-              <FiCheckCircle
-                style={{
-                  color: "var(--gold)",
-                  flexShrink: 0,
-                  marginTop: "2px",
-                }}
-                size={20}
-              />
-              <span
-                style={{
-                  color: "var(--text-muted)",
-                  fontSize: "14.5px",
-                  lineHeight: 1.6,
-                }}
-              >
+            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "14px" }}>
+              <FiCheckCircle style={{ color: "var(--gold)", flexShrink: 0, marginTop: "2px" }} size={20} />
+              <span style={{ color: "var(--text-muted)", fontSize: 14.5, lineHeight: 1.6 }}>
                 {text}
               </span>
             </div>

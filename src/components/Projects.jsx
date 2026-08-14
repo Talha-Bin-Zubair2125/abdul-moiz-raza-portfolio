@@ -60,11 +60,11 @@ export default function Projects() {
       <div className="eyebrow">Selected work</div>
       <h2
         style={{
-          fontSize: 34,
           marginBottom: 36,
-          minHeight: "42px",
+          minHeight: "1.4em",
           display: "flex",
           alignItems: "center",
+          flexWrap: "wrap",
         }}
       >
         <span
@@ -72,9 +72,9 @@ export default function Projects() {
             position: "relative",
             display: "inline-flex",
             alignItems: "center",
+            maxWidth: "100%",
           }}
         >
-          {/* Invisible sentinel reserves exact width to prevent layout jitter */}
           <span style={{ visibility: "hidden", whiteSpace: "nowrap" }} aria-hidden="true">
             Projects I'm proud of
           </span>
@@ -85,6 +85,8 @@ export default function Projects() {
               display: "inline-flex",
               alignItems: "center",
               whiteSpace: "nowrap",
+              maxWidth: "100%",
+              overflow: "hidden",
             }}
           >
             <span>{typedHeading}</span>
@@ -92,7 +94,7 @@ export default function Projects() {
               style={{
                 display: "inline-block",
                 width: "3px",
-                height: "24px",
+                height: "0.8em",
                 background: "var(--gold-light)",
                 marginLeft: "6px",
                 animation: "blink 1s step-start infinite",
@@ -102,24 +104,23 @@ export default function Projects() {
         </span>
       </h2>
 
-      {/* Changed to flex column for one project per line */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "clamp(16px, 3vw, 24px)" }}>
         {projects.map((p, i) => (
           <motion.div
             key={p.title}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
+            whileHover={{ y: -4 }}
             transition={{ duration: 0.6, delay: i * 0.1 }}
             className="glass"
             style={{
-              padding: "36px",
+              padding: "clamp(22px, 4vw, 36px)",
               display: "flex",
               flexDirection: "column",
               gap: "16px",
             }}
           >
-            {/* Header: Title, Tags, and Tech Icons */}
             <div
               style={{
                 display: "flex",
@@ -130,22 +131,10 @@ export default function Projects() {
               }}
             >
               <div>
-                <h3
-                  style={{
-                    fontSize: 24,
-                    marginBottom: 8,
-                    color: "var(--text)",
-                  }}
-                >
+                <h3 style={{ marginBottom: 8, color: "var(--text)" }}>
                   {p.title}
                 </h3>
-                <div
-                  style={{
-                    fontSize: 13,
-                    color: "var(--gold)",
-                    fontWeight: 600,
-                  }}
-                >
+                <div style={{ fontSize: 13, color: "var(--gold)", fontWeight: 600 }}>
                   {p.tag}
                 </div>
               </div>
@@ -154,26 +143,23 @@ export default function Projects() {
                   display: "flex",
                   gap: "14px",
                   color: "var(--text-muted)",
-                  fontSize: "22px",
+                  fontSize: "clamp(18px, 3vw, 22px)",
                 }}
               >
                 {p.icons}
               </div>
             </div>
 
-            {/* Description */}
             <p
               style={{
                 color: "var(--text-muted)",
                 lineHeight: 1.7,
-                fontSize: 15,
                 maxWidth: "800px",
               }}
             >
               {p.description}
             </p>
 
-            {/* GitHub Coming Soon Badge */}
             <div style={{ marginTop: "8px" }}>
               <div
                 style={{

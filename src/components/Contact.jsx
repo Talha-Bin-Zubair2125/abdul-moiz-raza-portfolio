@@ -12,26 +12,22 @@ export default function Contact() {
   const typedHeading = useTypingEffect(contactHeadings);
 
   return (
-    <section id="contact" style={{ paddingBottom: 140 }}>
+    <section id="contact" style={{ paddingBottom: "clamp(60px, 10vw, 140px)" }}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.7 }}
         className="glass"
-        style={{ padding: "52px 44px", textAlign: "center" }}
+        style={{ padding: "clamp(30px, 6vw, 52px) clamp(20px, 5vw, 44px)", textAlign: "center" }}
       >
-        <div
-          className="eyebrow"
-          style={{ justifyContent: "center", display: "flex" }}
-        >
+        <div className="eyebrow" style={{ justifyContent: "center", display: "flex" }}>
           Let's talk
         </div>
         <h2
           style={{
-            fontSize: 34,
             marginBottom: 16,
-            minHeight: "2.4em",
+            minHeight: "1.4em",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -51,20 +47,14 @@ export default function Contact() {
             }}
           />
         </h2>
-        <p
-          style={{ color: "var(--text-muted)", marginBottom: 28, fontSize: 16 }}
-        >
+        <p style={{ color: "var(--text-muted)", marginBottom: 28 }}>
           I'm currently open to freelance work and full-time roles. Based in
           Rawalpindi, Pakistan.
         </p>
 
         <div
-          style={{
-            display: "flex",
-            gap: 16,
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
+          className="btn-row-mobile-stack"
+          style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
         >
           <a
             href="mailto:greatglobian@gmail.com"

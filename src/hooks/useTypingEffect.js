@@ -1,4 +1,3 @@
-// useTypingEffect.js
 import { useState, useEffect } from "react";
 
 export function useTypingEffect(
@@ -12,7 +11,6 @@ export function useTypingEffect(
   const [deleting, setDeleting] = useState(false);
   const [started, setStarted] = useState(false);
 
-  // one-time delay before typing kicks in at all
   useEffect(() => {
     const delayTimer = setTimeout(() => setStarted(true), startDelay);
     return () => clearTimeout(delayTimer);

@@ -32,7 +32,6 @@ export default function Goal() {
       </div>
       <h2
         style={{
-          fontSize: 34,
           marginBottom: 40,
           textAlign: "center",
           minHeight: "2.4em",
@@ -59,8 +58,8 @@ export default function Goal() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: 22,
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "clamp(16px, 3vw, 22px)",
         }}
       >
         {goals.map((g, i) => (
@@ -69,9 +68,10 @@ export default function Goal() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
+            whileHover={{ y: -6 }}
             transition={{ duration: 0.6, delay: i * 0.12 }}
             className="glass"
-            style={{ padding: "30px 26px", textAlign: "center" }}
+            style={{ padding: "clamp(22px, 4vw, 30px) clamp(18px, 4vw, 26px)", textAlign: "center" }}
           >
             <div
               style={{
@@ -89,14 +89,8 @@ export default function Goal() {
             >
               {g.icon}
             </div>
-            <h3 style={{ fontSize: 18, marginBottom: 10 }}>{g.title}</h3>
-            <p
-              style={{
-                fontSize: 14,
-                color: "var(--text-muted)",
-                lineHeight: 1.6,
-              }}
-            >
+            <h3 style={{ marginBottom: 10 }}>{g.title}</h3>
+            <p style={{ color: "var(--text-muted)", lineHeight: 1.6 }}>
               {g.text}
             </p>
           </motion.div>

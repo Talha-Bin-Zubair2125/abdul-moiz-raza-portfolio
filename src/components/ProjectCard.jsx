@@ -47,7 +47,7 @@ export default function ProjectCard({ title, description, tag, index }) {
       }}
       className="glass"
     >
-      <div style={{ padding: "28px 26px", transform: "translateZ(30px)" }}>
+      <div style={{ padding: "clamp(20px, 4vw, 28px) clamp(18px, 4vw, 26px)", transform: "translateZ(30px)" }}>
         <div
           style={{
             fontSize: 11,
@@ -60,10 +60,8 @@ export default function ProjectCard({ title, description, tag, index }) {
         >
           {tag}
         </div>
-        <h3 style={{ fontSize: 20, marginBottom: 10 }}>{title}</h3>
-        <p
-          style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6 }}
-        >
+        <h3 style={{ marginBottom: 10 }}>{title}</h3>
+        <p style={{ color: "var(--text-muted)", lineHeight: 1.6 }}>
           {description}
         </p>
       </div>

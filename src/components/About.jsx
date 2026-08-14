@@ -13,7 +13,7 @@ export default function About() {
   return (
     <section
       id="about"
-      style={{ display: "flex", justifyContent: "center", paddingBottom: 80 }}
+      style={{ display: "flex", justifyContent: "center" }}
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -21,19 +21,14 @@ export default function About() {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7 }}
         className="glass"
-        style={{ padding: "48px 44px", maxWidth: 840, width: "100%" }}
+        style={{ padding: "var(--card-pad)", maxWidth: 840, width: "100%" }}
       >
-        <div
-          className="eyebrow"
-          style={{ marginBottom: 16, letterSpacing: "2px" }}
-        >
+        <div className="eyebrow" style={{ letterSpacing: "2px" }}>
           About me
         </div>
         <h2
           style={{
-            fontSize: "clamp(28px, 4vw, 34px)",
             marginBottom: 24,
-            color: "var(--text)",
             minHeight: "2.4em",
             display: "flex",
             alignItems: "center",
@@ -53,9 +48,7 @@ export default function About() {
             }}
           />
         </h2>
-        <p
-          style={{ color: "var(--text-muted)", lineHeight: 1.8, fontSize: 16 }}
-        >
+        <p style={{ color: "var(--text-muted)", lineHeight: 1.8 }}>
           I am a detail-oriented Computer Science student and aspiring mobile
           developer with hands-on experience building production-grade
           applications end to end. My technical expertise spans mobile

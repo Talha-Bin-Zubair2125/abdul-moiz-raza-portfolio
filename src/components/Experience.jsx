@@ -31,7 +31,6 @@ export default function Experience() {
       <div className="eyebrow">Where I've worked</div>
       <h2
         style={{
-          fontSize: 34,
           marginBottom: 32,
           minHeight: "2.4em",
           display: "flex",
@@ -53,7 +52,7 @@ export default function Experience() {
         />
       </h2>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "clamp(14px, 3vw, 20px)" }}>
         {experience.map((job, i) => (
           <motion.div
             key={job.role}
@@ -62,7 +61,7 @@ export default function Experience() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6, delay: i * 0.1 }}
             className="glass"
-            style={{ padding: "30px 32px" }}
+            style={{ padding: "clamp(22px, 4vw, 32px) clamp(18px, 4vw, 32px)" }}
           >
             <div
               style={{
@@ -73,12 +72,13 @@ export default function Experience() {
                 marginBottom: 6,
               }}
             >
-              <h3 style={{ fontSize: 19 }}>{job.role}</h3>
+              <h3 style={{ margin: 0 }}>{job.role}</h3>
               <span
                 style={{
                   fontSize: 13,
                   fontWeight: 600,
                   color: "var(--text-muted)",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {job.period}

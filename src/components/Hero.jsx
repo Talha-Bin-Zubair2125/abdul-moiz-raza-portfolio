@@ -13,7 +13,7 @@ const stats = [
   { value: "5+", label: "Projects" },
   { value: "2026", label: "Graduate" },
   { value: "3.29", label: "CGPA" },
-  { value: "Rawalpindi, Pakistan", label: "Location" },
+  { value: "Rawalpindi, PK", label: "Location", wide: true },
 ];
 
 export default function Hero() {
@@ -38,6 +38,9 @@ export default function Hero() {
           transition={{ duration: 0.7 }}
           className="hero-avatar-container"
         >
+          {/* Rotating decorative ring behind the avatar */}
+          <span className="avatar-ring" aria-hidden="true" />
+
           {/* Floating badges around avatar (desktop / tablet only) */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -95,10 +98,14 @@ export default function Hero() {
 
           <div className="stats-grid">
             {stats.map((s) => (
-              <div key={s.label} className="glass stat-card">
+              <motion.div
+                key={s.label}
+                whileHover={{ y: -4 }}
+                className={`glass stat-card${s.wide ? " stat-card-wide" : ""}`}
+              >
                 <div className="stat-value">{s.value}</div>
                 <div className="stat-label">{s.label}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -118,22 +125,20 @@ export default function Hero() {
           min-height: 100vh;
           display: flex;
           align-items: center;
-          padding-top: 100px;
+          padding-top: calc(var(--nav-height, 84px) + 24px);
+          padding-bottom: 40px;
           overflow-x: hidden;
         }
 
         .hero-grid {
           display: grid;
           grid-template-columns: 280px 1fr;
-          gap: 48px;
+          gap: clamp(28px, 5vw, 48px);
           align-items: center;
           width: 100%;
         }
 
-        /* Static badge row — hidden by default, shown only on small screens */
-        .mobile-tags {
-          display: none;
-        }
+        .mobile-tags { display: none; }
 
         .floating-tag-inline {
           padding: 6px 14px;
@@ -155,6 +160,21 @@ export default function Hero() {
           margin: 20px 0;
         }
 
+        .avatar-ring {
+          position: absolute;
+          inset: -14px;
+          border-radius: 50%;
+          border: 2px dashed var(--gold-soft);
+          opacity: 0.55;
+          animation: spin 16s linear infinite;
+          pointer-events: none;
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
         .hero-avatar {
           width: 100%;
           height: 100%;
@@ -162,10 +182,10 @@ export default function Hero() {
           object-fit: cover;
           border: 3px solid var(--gold-soft);
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-          display: block;
+          position: relative;
+          z-index: 2;
         }
 
-        /* Floating Skill Badges Around Avatar (desktop/tablet) */
         .floating-tag {
           position: absolute;
           padding: 6px 14px;
@@ -181,15 +201,8 @@ export default function Hero() {
           z-index: 3;
         }
 
-        .tag-top-left {
-          top: 10px;
-          left: -45px;
-        }
-
-        .tag-top-right {
-          top: 75px;
-          right: -50px;
-        }
+        .tag-top-left { top: 10px; left: -45px; }
+        .tag-top-right { top: 75px; right: -50px; }
 
         .status-badge {
           position: absolute;
@@ -219,24 +232,21 @@ export default function Hero() {
         }
 
         .hero-title {
-          font-size: 46px;
-          line-height: 1.15;
           margin-bottom: 14px;
           color: var(--text);
         }
 
-        .gold-text {
-          color: var(--gold-light);
-        }
+        .gold-text { color: var(--gold-light); }
 
         .typing-wrapper {
-          font-size: 22px;
+          font-size: clamp(16px, 2.4vw, 22px);
           font-weight: 600;
-          min-height: 32px;
+          min-height: 30px;
           margin-bottom: 18px;
           color: var(--gold);
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
         }
 
         .cursor {
@@ -250,7 +260,6 @@ export default function Hero() {
 
         .hero-bio {
           color: var(--text-muted);
-          font-size: 16px;
           line-height: 1.7;
           margin-bottom: 28px;
           max-width: 540px;
@@ -258,23 +267,30 @@ export default function Hero() {
 
         .stats-grid {
           display: flex;
-          gap: 14px;
+          gap: 12px;
           flex-wrap: wrap;
           margin-bottom: 30px;
         }
 
         .stat-card {
-          padding: 14px 20px;
-          min-width: 105px;
+          padding: 14px 18px;
+          min-width: 100px;
+          flex: 1 1 100px;
           text-align: center;
-          flex: 1 1 auto;
+          cursor: default;
+        }
+
+        .stat-card-wide {
+          flex: 1 1 160px;
         }
 
         .stat-value {
           font-family: var(--font-display);
-          font-size: 24px;
+          font-size: clamp(15px, 2.4vw, 22px);
           font-weight: 700;
           color: var(--gold-light);
+          white-space: normal;
+          overflow-wrap: break-word;
         }
 
         .stat-label {
@@ -291,28 +307,16 @@ export default function Hero() {
 
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* Tablet & Mobile Layout Adjustments */
         @media (max-width: 850px) {
           .hero-grid {
             grid-template-columns: 1fr;
             text-align: center;
-            gap: 36px;
+            gap: 32px;
           }
-
-          .hero-bio {
-            margin-left: auto;
-            margin-right: auto;
-          }
-
-          .typing-wrapper,
-          .hero-actions,
-          .stats-grid {
-            justify-content: center;
-          }
+          .hero-bio { margin-left: auto; margin-right: auto; }
+          .typing-wrapper, .hero-actions, .stats-grid { justify-content: center; }
         }
 
-        /* Below this width the negative-offset floating badges no longer
-           fit safely — switch to a static row above the avatar instead. */
         @media (max-width: 600px) {
           .mobile-tags {
             display: flex;
@@ -322,31 +326,25 @@ export default function Hero() {
             order: -1;
             margin-bottom: 8px;
           }
-
-          .tag-top-left,
-          .tag-top-right {
-            display: none;
-          }
+          .tag-top-left, .tag-top-right { display: none; }
         }
 
         @media (max-width: 480px) {
-          .hero-avatar-container {
-            width: 180px;
-            height: 180px;
-          }
+          .hero-section { padding-top: calc(var(--nav-height, 76px) + 16px); }
+          .hero-avatar-container { width: 168px; height: 168px; }
+          .stat-card { min-width: 42%; flex: 1 1 42%; }
+          .stat-card-wide { flex: 1 1 100%; }
+          .hero-actions { flex-direction: column; width: 100%; }
+          .hero-actions .btn { width: 100%; }
+        }
 
-          .stat-card {
-            min-width: 42%;
-          }
+        @media (max-width: 360px) {
+          .hero-avatar-container { width: 140px; height: 140px; }
+        }
 
-          .hero-actions {
-            flex-direction: column;
-            width: 100%;
-          }
-
-          .hero-actions .btn {
-            width: 100%;
-          }
+        @media (prefers-reduced-motion: reduce) {
+          .avatar-ring { animation: none; }
+          .cursor { animation: none; }
         }
       `}</style>
     </section>
