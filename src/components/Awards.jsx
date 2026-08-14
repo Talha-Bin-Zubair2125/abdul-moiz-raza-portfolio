@@ -29,13 +29,33 @@ export default function Awards() {
           marginBottom: "12px",
         }}
       >
-        <div style={{ width: "40px", height: "1px", background: "var(--glass-border)" }} />
-        <div className="eyebrow" style={{ margin: 0, color: "var(--gold)", letterSpacing: "4px" }}>
+        <div
+          style={{
+            width: "40px",
+            height: "1px",
+            background: "var(--glass-border)",
+          }}
+        />
+        <div
+          className="eyebrow"
+          style={{ margin: 0, color: "var(--gold)", letterSpacing: "4px" }}
+        >
           ACHIEVEMENTS
         </div>
-        <div style={{ width: "40px", height: "1px", background: "var(--glass-border)" }} />
+        <div
+          style={{
+            width: "40px",
+            height: "1px",
+            background: "var(--glass-border)",
+          }}
+        />
       </div>
 
+      {/* Simple centered flex row — no hidden "sentinel" span reserving a
+          fixed box width. That approach anchored the real text to the
+          left edge of a box sized for the longest phrase, so any shorter
+          phrase rendered off-center. This grows evenly from the middle
+          instead, which is what "centered" actually needs to look like. */}
       <h2
         style={{
           marginBottom: "12px",
@@ -45,46 +65,28 @@ export default function Awards() {
           alignItems: "center",
           justifyContent: "center",
           flexWrap: "wrap",
+          textAlign: "center",
         }}
       >
+        <span>{typedHeading}</span>
         <span
           style={{
-            position: "relative",
-            display: "inline-flex",
-            alignItems: "center",
-            maxWidth: "100%",
+            display: "inline-block",
+            width: "3px",
+            height: "0.8em",
+            background: "var(--gold-light)",
+            marginLeft: "6px",
+            animation: "blink 1s step-start infinite",
+            verticalAlign: "middle",
           }}
-        >
-          <span style={{ visibility: "hidden", whiteSpace: "nowrap" }} aria-hidden="true">
-            Awards & Recognition
-          </span>
-          <span
-            style={{
-              position: "absolute",
-              left: 0,
-              display: "inline-flex",
-              alignItems: "center",
-              whiteSpace: "nowrap",
-              maxWidth: "100%",
-              overflow: "hidden",
-            }}
-          >
-            <span>{typedHeading}</span>
-            <span
-              style={{
-                display: "inline-block",
-                width: "3px",
-                height: "0.8em",
-                background: "var(--gold-light)",
-                marginLeft: "6px",
-                animation: "blink 1s step-start infinite",
-                verticalAlign: "middle",
-              }}
-            />
-          </span>
-        </span>
+        />
       </h2>
-      <p style={{ color: "var(--text-muted)", marginBottom: "clamp(36px, 6vw, 56px)" }}>
+      <p
+        style={{
+          color: "var(--text-muted)",
+          marginBottom: "clamp(36px, 6vw, 56px)",
+        }}
+      >
         Dedication, perseverance, and a commitment to academic excellence.
       </p>
 
@@ -93,7 +95,11 @@ export default function Awards() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.7 }}
-        style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
         <div
           className="glass"
@@ -124,7 +130,8 @@ export default function Awards() {
             width: 60,
             height: 60,
             borderRadius: "18px",
-            background: "linear-gradient(135deg, var(--gold-light), var(--gold))",
+            background:
+              "linear-gradient(135deg, var(--gold-light), var(--gold))",
             color: "var(--text-dark)",
             display: "flex",
             alignItems: "center",
@@ -156,7 +163,11 @@ export default function Awards() {
           }}
         >
           <span>Prime Minister's Youth Programme</span>
-          <span style={{ fontSize: 18, lineHeight: 0, color: "var(--text-muted)" }}>•</span>
+          <span
+            style={{ fontSize: 18, lineHeight: 0, color: "var(--text-muted)" }}
+          >
+            •
+          </span>
           <span>2025</span>
         </div>
 
@@ -166,7 +177,6 @@ export default function Awards() {
             lineHeight: 1.7,
             maxWidth: "600px",
             marginBottom: "32px",
-            padding: "0 clamp(4px, 3vw, 0px)",
           }}
         >
           Awarded high-specification laptop for outstanding academic performance
@@ -184,9 +194,25 @@ export default function Awards() {
           }}
         >
           {detailsList.map((text, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "14px" }}>
-              <FiCheckCircle style={{ color: "var(--gold)", flexShrink: 0, marginTop: "2px" }} size={20} />
-              <span style={{ color: "var(--text-muted)", fontSize: 14.5, lineHeight: 1.6 }}>
+            <div
+              key={i}
+              style={{ display: "flex", alignItems: "flex-start", gap: "14px" }}
+            >
+              <FiCheckCircle
+                style={{
+                  color: "var(--gold)",
+                  flexShrink: 0,
+                  marginTop: "2px",
+                }}
+                size={20}
+              />
+              <span
+                style={{
+                  color: "var(--text-muted)",
+                  fontSize: 14.5,
+                  lineHeight: 1.6,
+                }}
+              >
                 {text}
               </span>
             </div>

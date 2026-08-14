@@ -12,7 +12,7 @@ import {
 } from "react-icons/si";
 
 const projectHeadings = [
-  "Projects I'm proud of",
+  "Projects I'm proud of", // This is the longest phrase
   "Selected Works",
   "Featured Projects",
 ];
@@ -56,131 +56,152 @@ export default function Projects() {
   const typedHeading = useTypingEffect(projectHeadings);
 
   return (
-    <section id="projects">
-      <div className="eyebrow">Selected work</div>
-      <h2
-        style={{
-          marginBottom: 36,
-          minHeight: "1.4em",
-          display: "flex",
-          alignItems: "center",
-          flexWrap: "wrap",
-        }}
-      >
-        <span
+    <section 
+      id="projects"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+        padding: "60px 20px"
+      }}
+    >
+      <div style={{ width: "100%", maxWidth: 840 }}>
+        <div 
+          className="eyebrow"
           style={{
-            position: "relative",
-            display: "inline-flex",
-            alignItems: "center",
-            maxWidth: "100%",
+            textAlign: "center",
+            textTransform: "uppercase",
+            letterSpacing: "2px",
+            fontWeight: 600,
+            marginBottom: "16px"
           }}
         >
-          <span style={{ visibility: "hidden", whiteSpace: "nowrap" }} aria-hidden="true">
-            Projects I'm proud of
-          </span>
-          <span
-            style={{
-              position: "absolute",
-              left: 0,
-              display: "inline-flex",
-              alignItems: "center",
-              whiteSpace: "nowrap",
-              maxWidth: "100%",
-              overflow: "hidden",
-            }}
-          >
-            <span>{typedHeading}</span>
+          Selected work
+        </div>
+
+        <h2
+          style={{
+            marginBottom: 36,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "clamp(22px, 3vw, 32px)",
+            color: "var(--text)",
+            fontFamily: "var(--font-display)",
+          }}
+        >
+          <span style={{ position: "relative", display: "inline-flex" }}>
+            {/* Invisible longest string to reserve the exact width and prevent jitter */}
+            <span style={{ visibility: "hidden", whiteSpace: "nowrap" }} aria-hidden="true">
+              Projects I'm proud of
+            </span>
+
+            {/* Left-aligned typing text inside the reserved space */}
             <span
               style={{
-                display: "inline-block",
-                width: "3px",
-                height: "0.8em",
-                background: "var(--gold-light)",
-                marginLeft: "6px",
-                animation: "blink 1s step-start infinite",
+                position: "absolute",
+                left: 0,
+                top: 0,
+                display: "inline-flex",
+                alignItems: "center",
+                whiteSpace: "nowrap",
               }}
-            />
+            >
+              <span>{typedHeading}</span>
+              <span
+                style={{
+                  display: "inline-block",
+                  width: "3px",
+                  height: "1.1em",
+                  background: "var(--gold-light)",
+                  marginLeft: "6px",
+                  animation: "blink 1s step-start infinite",
+                  verticalAlign: "middle",
+                }}
+              />
+            </span>
           </span>
-        </span>
-      </h2>
+        </h2>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "clamp(16px, 3vw, 24px)" }}>
-        {projects.map((p, i) => (
-          <motion.div
-            key={p.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
-            className="glass"
-            style={{
-              padding: "clamp(22px, 4vw, 36px)",
-              display: "flex",
-              flexDirection: "column",
-              gap: "16px",
-            }}
-          >
-            <div
+        <div style={{ display: "flex", flexDirection: "column", gap: "clamp(16px, 3vw, 24px)" }}>
+          {projects.map((p, i) => (
+            <motion.div
+              key={p.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="glass"
               style={{
+                padding: "clamp(22px, 4vw, 36px)",
                 display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                flexWrap: "wrap",
+                flexDirection: "column",
                 gap: "16px",
               }}
             >
-              <div>
-                <h3 style={{ marginBottom: 8, color: "var(--text)" }}>
-                  {p.title}
-                </h3>
-                <div style={{ fontSize: 13, color: "var(--gold)", fontWeight: 600 }}>
-                  {p.tag}
-                </div>
-              </div>
               <div
                 style={{
                   display: "flex",
-                  gap: "14px",
-                  color: "var(--text-muted)",
-                  fontSize: "clamp(18px, 3vw, 22px)",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  flexWrap: "wrap",
+                  gap: "16px",
                 }}
               >
-                {p.icons}
+                <div>
+                  <h3 style={{ marginBottom: 8, color: "var(--text)" }}>
+                    {p.title}
+                  </h3>
+                  <div style={{ fontSize: 13, color: "var(--gold)", fontWeight: 600 }}>
+                    {p.tag}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "14px",
+                    color: "var(--text-muted)",
+                    fontSize: "clamp(18px, 3vw, 22px)",
+                  }}
+                >
+                  {p.icons}
+                </div>
               </div>
-            </div>
 
-            <p
-              style={{
-                color: "var(--text-muted)",
-                lineHeight: 1.7,
-                maxWidth: "800px",
-              }}
-            >
-              {p.description}
-            </p>
-
-            <div style={{ marginTop: "8px" }}>
-              <div
+              <p
                 style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "8px 16px",
-                  background: "rgba(255, 255, 255, 0.03)",
-                  borderRadius: "8px",
-                  border: "1px solid var(--glass-border)",
-                  fontSize: "13px",
                   color: "var(--text-muted)",
-                  cursor: "not-allowed",
+                  lineHeight: 1.7,
+                  maxWidth: "800px",
                 }}
               >
-                <FiGithub size={16} />
-                <span>GitHub | Coming Soon</span>
+                {p.description}
+              </p>
+
+              <div style={{ marginTop: "8px" }}>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 16px",
+                    background: "rgba(255, 255, 255, 0.03)",
+                    borderRadius: "8px",
+                    border: "1px solid var(--glass-border)",
+                    fontSize: "13px",
+                    color: "var(--text-muted)",
+                    cursor: "not-allowed",
+                  }}
+                >
+                  <FiGithub size={16} />
+                  <span>GitHub | Coming Soon</span>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

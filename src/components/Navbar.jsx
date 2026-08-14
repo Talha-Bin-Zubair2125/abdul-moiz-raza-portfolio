@@ -43,10 +43,11 @@ export default function Navbar() {
     };
   }, []);
 
-  // Lock background scroll while the mobile menu is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   const closeMenu = () => setOpen(false);
@@ -54,56 +55,63 @@ export default function Navbar() {
   return (
     <>
       {/* ================= NAVBAR ================= */}
-      <motion.nav
-        className="navbar"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <div className="navbar-inner">
-          {/* BRAND */}
-          <a href="#home" className="navbar-brand" onClick={closeMenu}>
-            <span className="brand-measure" aria-hidden="true">
-              Abdul Moiz
-            </span>
-            <span className="brand-content">
-              {typedBrand}
-              <span className="typing-cursor" />
-            </span>
-          </a>
+      {/* Outer wrapper spans the full viewport width and uses flex
+          justify-content:center to center the pill. This is more robust
+          than left:50% + translateX(-50%) on the pill itself, which can
+          misbehave at medium widths once the pill's own content width
+          gets close to the viewport width. */}
+      <div className="navbar-wrapper">
+        <motion.nav
+          className="navbar"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <div className="navbar-inner">
+            {/* BRAND */}
+            <a href="#home" className="navbar-brand" onClick={closeMenu}>
+              <span className="brand-measure" aria-hidden="true">
+                Abdul Moiz
+              </span>
+              <span className="brand-content">
+                {typedBrand}
+                <span className="typing-cursor" />
+              </span>
+            </a>
 
-          {/* DESKTOP LINKS */}
-          <div className="desktop-links">
-            {links.map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="nav-link"
-                onClick={closeMenu}
-              >
-                {link}
-              </a>
-            ))}
-          </div>
+            {/* DESKTOP LINKS */}
+            <div className="desktop-links">
+              {links.map((link) => (
+                <a
+                  key={link}
+                  href={`#${link.toLowerCase()}`}
+                  className="nav-link"
+                  onClick={closeMenu}
+                >
+                  {link}
+                </a>
+              ))}
+            </div>
 
-          {/* MOBILE BUTTON */}
-          <button
-            type="button"
-            className="menu-button"
-            onClick={() => setOpen((prev) => !prev)}
-            aria-label={open ? "Close navigation" : "Open navigation"}
-            aria-expanded={open}
-          >
-            <motion.span
-              animate={{ rotate: open ? 90 : 0 }}
-              transition={{ duration: 0.25 }}
-              style={{ display: "flex" }}
+            {/* MOBILE BUTTON */}
+            <button
+              type="button"
+              className="menu-button"
+              onClick={() => setOpen((prev) => !prev)}
+              aria-label={open ? "Close navigation" : "Open navigation"}
+              aria-expanded={open}
             >
-              {open ? <FiX /> : <FiMenu />}
-            </motion.span>
-          </button>
-        </div>
-      </motion.nav>
+              <motion.span
+                animate={{ rotate: open ? 90 : 0 }}
+                transition={{ duration: 0.25 }}
+                style={{ display: "flex" }}
+              >
+                {open ? <FiX /> : <FiMenu />}
+              </motion.span>
+            </button>
+          </div>
+        </motion.nav>
+      </div>
 
       {/* ================= MOBILE MENU ================= */}
       <AnimatePresence>
@@ -143,15 +151,25 @@ export default function Navbar() {
       </AnimatePresence>
 
       <style>{`
-        .navbar {
+        /* Full-width, non-interactive except for the pill itself, so
+           clicks still pass through to the page on either side of it. */
+        .navbar-wrapper {
           position: fixed;
-          top: clamp(10px, 3vw, 20px);
-          left: 50%;
-          transform: translateX(-50%);
+          top: 0;
+          left: 0;
+          right: 0;
           z-index: 1000;
-          width: max-content;
-          max-width: calc(100vw - 24px);
+          display: flex;
+          justify-content: center;
+          padding: clamp(10px, 3vw, 20px) 12px 0;
+          pointer-events: none;
           box-sizing: border-box;
+        }
+
+        .navbar {
+          width: max-content;
+          max-width: 100%;
+          pointer-events: auto;
         }
 
         .navbar-inner {
@@ -169,7 +187,8 @@ export default function Navbar() {
             0 10px 40px rgba(0, 0, 0, 0.35),
             inset 0 1px 0 rgba(255, 255, 255, 0.08);
           box-sizing: border-box;
-          gap: clamp(10px, 3vw, 20px);
+          gap: clamp(8px, 2.4vw, 20px);
+          max-width: 100%;
           transition: all 0.3s ease;
         }
 
@@ -184,6 +203,7 @@ export default function Navbar() {
           font-weight: 700;
           letter-spacing: 0.4px;
           white-space: nowrap;
+          flex-shrink: 0;
         }
 
         .brand-measure {
@@ -211,22 +231,32 @@ export default function Navbar() {
           border-radius: 2px;
         }
 
+        /* Links shrink and gap tightens smoothly instead of jumping
+           straight to the hamburger — this is what fixes the "medium
+           screen" squeeze, since 8 links no longer fight for space
+           against a fixed gap/padding right up until the breakpoint. */
         .desktop-links {
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: clamp(0px, 0.6vw, 4px);
           white-space: nowrap;
+          overflow-x: auto;
+          scrollbar-width: none;
+          max-width: 60vw;
         }
+
+        .desktop-links::-webkit-scrollbar { display: none; }
 
         .nav-link {
           position: relative;
           color: var(--text, #ffffff);
           text-decoration: none;
-          font-size: 13px;
+          font-size: clamp(11.5px, 1.1vw, 13px);
           font-weight: 500;
           opacity: 0.8;
-          padding: 8px 12px;
+          padding: 8px clamp(8px, 1.1vw, 14px);
           border-radius: 999px;
+          white-space: nowrap;
           transition: color 0.2s ease, opacity 0.2s ease, background 0.2s ease;
         }
 
@@ -312,6 +342,9 @@ export default function Navbar() {
           opacity: 1;
         }
 
+        /* One breakpoint band (851–950px) now gets shrinking links via
+           clamp() above instead of nothing until 950px flips it to the
+           hamburger — that band was the "medium screen" squeeze. */
         @media (max-width: 950px) {
           .desktop-links { display: none; }
           .menu-button { display: flex; }
@@ -319,7 +352,7 @@ export default function Navbar() {
         }
 
         @media (max-width: 480px) {
-          .navbar { top: 12px; max-width: calc(100vw - 16px); }
+          .navbar-wrapper { padding-top: 12px; }
           .navbar-brand { font-size: 14px; }
           .mobile-menu { width: calc(100vw - 16px); }
         }

@@ -27,118 +27,156 @@ export default function Experience() {
   const typedHeading = useTypingEffect(experienceHeadings);
 
   return (
-    <section id="experience">
-      <div className="eyebrow">Where I've worked</div>
-      <h2
-        style={{
-          marginBottom: 32,
-          minHeight: "2.4em",
-          display: "flex",
-          alignItems: "center",
-          flexWrap: "wrap",
-        }}
-      >
-        <span>{typedHeading}</span>
-        <span
+    <section
+      id="experience"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+        padding: "60px 20px", // Consistent padding for the section
+      }}
+    >
+      <div style={{ width: "100%", maxWidth: 840 }}>
+        {/* Centered Eyebrow */}
+        <div
+          className="eyebrow"
           style={{
-            display: "inline-block",
-            width: "3px",
-            height: "1.1em",
-            background: "var(--gold-light)",
-            marginLeft: "6px",
-            animation: "blink 1s step-start infinite",
-            verticalAlign: "middle",
+            textAlign: "center",
+            textTransform: "uppercase",
+            letterSpacing: "2px",
+            fontWeight: 600,
+            marginBottom: "16px",
           }}
-        />
-      </h2>
+        >
+          Where I've worked
+        </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "clamp(14px, 3vw, 20px)" }}>
-        {experience.map((job, i) => (
-          <motion.div
-            key={job.role}
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
-            className="glass"
-            style={{ padding: "clamp(22px, 4vw, 32px) clamp(18px, 4vw, 32px)" }}
-          >
-            <div
+        {/* Centered Heading without jitter */}
+        <h2
+          style={{
+            marginBottom: 32,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            fontSize: "clamp(22px, 3vw, 32px)",
+            color: "var(--text)",
+            fontFamily: "var(--font-display)",
+            textAlign: "center",
+          }}
+        >
+          <span>{typedHeading}</span>
+          <span
+            style={{
+              display: "inline-block",
+              width: "3px",
+              height: "1.1em",
+              background: "var(--gold-light)",
+              marginLeft: "6px",
+              animation: "blink 1s step-start infinite",
+              verticalAlign: "middle",
+            }}
+          />
+        </h2>
+
+        {/* Experience Cards */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "clamp(14px, 3vw, 20px)",
+          }}
+        >
+          {experience.map((job, i) => (
+            <motion.div
+              key={job.role}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="glass"
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                flexWrap: "wrap",
-                gap: 8,
-                marginBottom: 6,
+                padding: "clamp(22px, 4vw, 32px) clamp(18px, 4vw, 32px)",
               }}
             >
-              <h3 style={{ margin: 0 }}>{job.role}</h3>
-              <span
+              <div
                 style={{
-                  fontSize: 13,
-                  fontWeight: 600,
-                  color: "var(--text-muted)",
-                  whiteSpace: "nowrap",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: 8,
+                  marginBottom: 6,
                 }}
               >
-                {job.period}
-              </span>
-            </div>
-
-            <div
-              style={{
-                fontSize: 14,
-                fontWeight: 600,
-                marginBottom: 14,
-                color: "var(--gold)",
-              }}
-            >
-              {job.org}
-            </div>
-
-            <ul
-              style={{
-                paddingLeft: 18,
-                display: "flex",
-                flexDirection: "column",
-                gap: 8,
-              }}
-            >
-              {job.points.map((point) => (
-                <li
-                  key={point}
+                <h3 style={{ margin: 0 }}>{job.role}</h3>
+                <span
                   style={{
-                    fontSize: 14,
-                    color: "var(--text-muted)",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {point}
-                </li>
-              ))}
-            </ul>
-
-            {job.certificateUrl && (
-              <div style={{ marginTop: 24 }}>
-                <a
-                  href={InternshipCertificate}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-outline"
-                  style={{
-                    padding: "8px 18px",
                     fontSize: 13,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
+                    fontWeight: 600,
+                    color: "var(--text-muted)",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  View Certificate <FiExternalLink size={14} />
-                </a>
+                  {job.period}
+                </span>
               </div>
-            )}
-          </motion.div>
-        ))}
+
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  marginBottom: 14,
+                  color: "var(--gold)",
+                }}
+              >
+                {job.org}
+              </div>
+
+              <ul
+                style={{
+                  paddingLeft: 18,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                }}
+              >
+                {job.points.map((point) => (
+                  <li
+                    key={point}
+                    style={{
+                      fontSize: 14,
+                      color: "var(--text-muted)",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {point}
+                  </li>
+                ))}
+              </ul>
+
+              {job.certificateUrl && (
+                <div style={{ marginTop: 24 }}>
+                  <a
+                    href={InternshipCertificate}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-outline"
+                    style={{
+                      padding: "8px 18px",
+                      fontSize: 13,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    View Certificate <FiExternalLink size={14} />
+                  </a>
+                </div>
+              )}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -13,7 +13,7 @@ const stats = [
   { value: "5+", label: "Projects" },
   { value: "2026", label: "Graduate" },
   { value: "3.29", label: "CGPA" },
-  { value: "Rawalpindi, PK", label: "Location", wide: true },
+  { value: "Rawalpindi,PK", label: "Location" },
 ];
 
 export default function Hero() {
@@ -97,11 +97,14 @@ export default function Hero() {
           </p>
 
           <div className="stats-grid">
-            {stats.map((s) => (
+            {stats.map((s, idx) => (
               <motion.div
                 key={s.label}
-                whileHover={{ y: -4 }}
-                className={`glass stat-card${s.wide ? " stat-card-wide" : ""}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 + idx * 0.08 }}
+                whileHover={{ y: -4, borderColor: "var(--gold-soft)" }}
+                className="glass stat-card"
               >
                 <div className="stat-value">{s.value}</div>
                 <div className="stat-label">{s.label}</div>
@@ -265,38 +268,43 @@ export default function Hero() {
           max-width: 540px;
         }
 
+        /* Improved Stats Grid */
         .stats-grid {
-          display: flex;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
           gap: 12px;
-          flex-wrap: wrap;
           margin-bottom: 30px;
         }
 
         .stat-card {
-          padding: 14px 18px;
-          min-width: 100px;
-          flex: 1 1 100px;
+          padding: 14px 8px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
           text-align: center;
+          height: 105px;
+          border-radius: 16px;
           cursor: default;
-        }
-
-        .stat-card-wide {
-          flex: 1 1 160px;
+          transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
         .stat-value {
           font-family: var(--font-display);
-          font-size: clamp(15px, 2.4vw, 22px);
+          font-size: clamp(15px, 1.8vw, 20px);
           font-weight: 700;
           color: var(--gold-light);
-          white-space: normal;
-          overflow-wrap: break-word;
+          white-space: pre-line;
+          line-height: 1.2;
+          margin-bottom: 6px;
         }
 
         .stat-label {
-          font-size: 12px;
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
           color: var(--text-muted);
-          margin-top: 2px;
+          font-weight: 500;
         }
 
         .hero-actions {
@@ -306,6 +314,12 @@ export default function Hero() {
         }
 
         @keyframes blink { 50% { opacity: 0; } }
+
+        @media (max-width: 960px) {
+          .stats-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
 
         @media (max-width: 850px) {
           .hero-grid {
@@ -327,13 +341,18 @@ export default function Hero() {
             margin-bottom: 8px;
           }
           .tag-top-left, .tag-top-right { display: none; }
+          .stats-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+          }
         }
 
         @media (max-width: 480px) {
           .hero-section { padding-top: calc(var(--nav-height, 76px) + 16px); }
           .hero-avatar-container { width: 168px; height: 168px; }
-          .stat-card { min-width: 42%; flex: 1 1 42%; }
-          .stat-card-wide { flex: 1 1 100%; }
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
           .hero-actions { flex-direction: column; width: 100%; }
           .hero-actions .btn { width: 100%; }
         }
